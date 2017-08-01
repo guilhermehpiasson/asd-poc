@@ -1,0 +1,20 @@
+{
+  "name": "asdLogistica",
+  "version": "1.0.0",
+  "description": "Modulo responsavel pela exposicao de servicos relacionados a logistica de vendas efetuadas",
+  "private": true,
+  "scripts": {
+    "start": "node asdLogistica.js"
+  },
+  "keywords": [
+    "api",
+    "logistica",
+    "javascript"
+  ],
+  "dependencies": {
+    "consign": "^0.1.6",
+    "ejs": "*",
+    "express": "^3.21.2"
+  },
+  "author": "guilhermehpiasson"
+}
