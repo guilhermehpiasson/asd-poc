@@ -12,9 +12,12 @@
     "javascript"
   ],
   "dependencies": {
+    "body-parser": "^1.17.2",
     "consign": "^0.1.6",
     "ejs": "*",
-    "express": "^3.21.2"
+    "express": "^3.21.2",
+    "express-validator": "^3.2.1",
+    "mysql": "^2.14.1"
   },
   "author": "guilhermehpiasson"
 }
