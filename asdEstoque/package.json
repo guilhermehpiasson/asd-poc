@@ -1,0 +1,24 @@
+{
+  "name": "asdEstoque",
+  "version": "1.0.0",
+  "description": "Modulo responsavel pela exposicao de servicos relacionados ao estoque. Pode ser entendido como
+  uma relacao entre compras efetuadas e vendas efetuadas",
+  "private": true,
+  "scripts": {
+    "start": "node asdEstoque.js"
+  },
+  "keywords": [
+    "api",
+    "estoque",
+    "javascript"
+  ],
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "consign": "^0.1.6",
+    "ejs": "*",
+    "express": "^3.21.2",
+    "express-validator": "^3.2.1",
+    "mysql": "^2.14.1"
+  },
+  "author": "guilhermehpiasson"
+}
