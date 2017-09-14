@@ -36,4 +36,18 @@ module.exports = function(app){
       }
     });
   });
+
+  app.post('/estoque/listaProdutosParaDescarte', function(req, res){
+    var connection = app.persistencia.connectionFactory();
+    var EstoqueDao = new app.persistencia.EstoqueDao(connection);
+
+    EstoqueDao.listaProdutosParaDescarte(function(erro, resultado){
+      if(erro){
+        console.log('Erro ao consultar no banco:' + erro);
+        res.status(500).send(erro);
+      } else {
+        res.status(201).json(resultado);
+      }
+    });
+  });
 }
