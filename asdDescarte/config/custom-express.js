@@ -18,6 +18,7 @@ module.exports = function(){
    .then('persistencia')
    .then('servicos')
    .then('tarefas')
+   .then('filas')
    .into(app);
 
   return app;

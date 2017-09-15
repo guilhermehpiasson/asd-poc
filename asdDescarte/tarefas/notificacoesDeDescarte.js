@@ -5,7 +5,7 @@ module.exports = function(app){
 
 	var rule = new cron.RecurrenceRule();
   //0 1 * * *
-  cron.scheduleJob('*/2 * * * *', function(){
+  cron.scheduleJob('*/5 * * * *', function(){
       console.log("NOVA DATA 1", date.format(new Date(), 'DD/MM/YYYY HH:mm:ss'));
       disparoDeExecucao();
   });
@@ -51,7 +51,7 @@ module.exports = function(app){
 
       notificacao.EXECUCOES_ID = idExecucao;
       for (var i = 0; i < retorno.length; i++) {
-        notificacao.NOTIFICACAO_JSON_VALORES = retorno[i];
+        notificacao.NOTIFICACAO_JSON_VALORES = JSON.stringify(retorno[i]);
       }
       notificacao.NOTIFICACAO_POSTADA = "F";
 
@@ -68,14 +68,29 @@ module.exports = function(app){
         console.log('Erro ao inserir no banco:' + erro);
         // res.status(500).send(erro);
       } else {
-        // postaMensagemNaFila();
+        postaMensagemNaFila(notificacao);
       }
     });
   }
 
-  function postaMensagemNaFila(){
-    //posta a msg na fila do respectivo fornecedor
+  function postaMensagemNaFila(notificacao){
+
+    var destination = '/queue/ManahSolicitacaoDescarteQueue';
+    var endereco = '127.0.0.1';
+    var porta = '61613';
+    var user = 'admin';
+    var senha = 'admin';
+    var msg = JSON.stringify(notificacao.NOTIFICACAO_JSON_VALORES);
+
+    var filas = new app.filas.MessageProducer();
+    filas.enviaSolicitacaoDescarte(destination, endereco, porta, user, senha, msg);
+    //
+    // console.log('POSTOU');
+    // console.log(JSON.stringify(notificacao.NOTIFICACAO_JSON_VALORES));
+
   }
+
+
 }
 
 //http://www.codexpedia.com/javascript/nodejs-cron-schedule-examples/
