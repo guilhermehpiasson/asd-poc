@@ -16,6 +16,8 @@ module.exports = function(){
   consign()
    .include('routes')
    .then('persistencia')
+   .then('servicos')
+   .then('tarefas')
    .into(app);
 
   return app;

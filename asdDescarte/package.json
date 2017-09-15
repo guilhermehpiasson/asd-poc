@@ -14,10 +14,14 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "consign": "^0.1.6",
+    "date-and-time": "^0.5.0",
     "ejs": "*",
     "express": "^3.21.2",
     "express-validator": "^3.2.1",
-    "mysql": "^2.14.1"
+    "mysql": "^2.14.1",
+    "node-schedule": "^1.2.4",
+    "restify": "^5.2.0",
+    "restify-clients": "^1.5.1"
   },
   "author": "guilhermehpiasson"
 }
