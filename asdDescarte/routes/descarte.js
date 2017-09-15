@@ -21,8 +21,6 @@ module.exports = function(app){
 
   app.post('/descarte/insereRegistroExecucao', function(req, res){
 
-    var produto = req.body;
-
     var connection = app.persistencia.connectionFactory();
     var DescarteDao = new app.persistencia.DescarteDao(connection);
 
@@ -34,28 +32,39 @@ module.exports = function(app){
         res.status(201).json(resultado);
       }
     });
+
   });
 
   app.post('/descarte/registraErroExecucao', function(req, res){
+
+    res.status(201).json(teste());
+
+  });
+
+  function teste(){
+
     var connection = app.persistencia.connectionFactory();
     var DescarteDao = new app.persistencia.DescarteDao(connection);
 
-    DescarteDao.registraErroExecucao(erro ,function(erro, resultado){
-      if(erro){
-        console.log('Erro ao registrar no banco:' + erro);
-        res.status(500).send(erro);
-      } else {
+    var clienteProdutos = new app.servicos.clienteProdutosParaDescarte();
 
-        res.status(201).json(resultado);
-      }
+    clienteProdutos.consulta(function(exception, request, response, retorno){
+          if(exception){
+            console.log(exception);
+            res.status(400).send(exception);
+            return;
+          }
+
+          //console.log(retorno);
+
+          for (var i = 0; i < retorno.length; i++) {
+            console.log(retorno[i].COMPRA_PRODUTO_ID);
+            console.log(retorno[i].DATA_COMPRA);
+            console.log(retorno[i].QNT_DISPONIVEL);
+          }
+
+          res.status(201).json(retorno);
+          return retorno;
     });
-  });
-
-  /*function teste(){
-    for (var i = 0; i < resultado.length; i++) {
-      console.log(resultado[i].COMPRA_PRODUTO_ID);
-      console.log(resultado[i].DATA_COMPRA);
-      console.log(resultado[i].QNT_DISPONIVEL);
-    }
-  };*/
+  };
 }
