@@ -18,6 +18,10 @@ DescarteDao.prototype.insereRegistroNotificacoes = function (notificacao, callba
     this._connection.query('INSERT INTO NOTIFICACOES SET ? ', notificacao, callback);
 }
 
+DescarteDao.prototype.alteraFlagPostagemNotificacao = function (idNotificacao, callback) {
+    this._connection.query('UPDATE NOTIFICACOES SET NOTIFICACAO_POSTADA = ? WHERE NOTIFICACAO_ID = ? ', ['S', idNotificacao], callback);
+}
+
 DescarteDao.prototype.registraErroExecucao = function (callback) {
     this._connection.query('', callback);
 }

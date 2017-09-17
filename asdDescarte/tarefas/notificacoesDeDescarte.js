@@ -5,7 +5,8 @@ module.exports = function(app){
 
 	var rule = new cron.RecurrenceRule();
   //0 1 * * *
-  cron.scheduleJob('*/5 * * * *', function(){
+  // */2 * * * *
+  cron.scheduleJob('0 1 * * *', function(){
       console.log("NOVA DATA 1", date.format(new Date(), 'DD/MM/YYYY HH:mm:ss'));
       disparoDeExecucao();
   });
@@ -65,15 +66,15 @@ module.exports = function(app){
 
     DescarteDao.insereRegistroNotificacoes(notificacao, function(erro, resultado){
       if(erro){
-        console.log('Erro ao inserir no banco:' + erro);
+        console.log('Erro ao inserir no banco 1: ' + erro);
         // res.status(500).send(erro);
       } else {
-        postaMensagemNaFila(notificacao);
+        postaMensagemNaFila(notificacao, resultado.insertId);
       }
     });
   }
 
-  function postaMensagemNaFila(notificacao){
+  function postaMensagemNaFila(notificacao, idNotificacao){
 
     var destination = '/queue/ManahSolicitacaoDescarteQueue';
     var endereco = '127.0.0.1';
@@ -84,9 +85,27 @@ module.exports = function(app){
 
     var filas = new app.filas.MessageProducer();
     filas.enviaSolicitacaoDescarte(destination, endereco, porta, user, senha, msg);
+
+    alteraStatusPostagemNotificacaoNaFila(idNotificacao);
+
     //
     // console.log('POSTOU');
     // console.log(JSON.stringify(notificacao.NOTIFICACAO_JSON_VALORES));
+
+  }
+
+  function alteraStatusPostagemNotificacaoNaFila(idNotificacao){
+    var connection = app.persistencia.connectionFactory();
+    var DescarteDao = new app.persistencia.DescarteDao(connection);
+
+    DescarteDao.alteraFlagPostagemNotificacao(idNotificacao, function(erro, resultado){
+      if(erro){
+        console.log('Erro ao inserir no banco: 2 ' + erro);
+        // res.status(500).send(erro);
+      } else {
+        //sucesso;
+      }
+    });
 
   }
 
